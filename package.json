@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
+    "@types/dotenv": "^8.2.3",
+    "@types/express": "^5.0.1",
     "@types/node": "^22.14.1",
     "webpack-dev-server": "^5.2.1"
   }
