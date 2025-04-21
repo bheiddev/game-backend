@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.exchangeCodeForToken = void 0;
+exports.exchangeCodeForToken = exchangeCodeForToken;
 async function exchangeCodeForToken(code) {
     const clientId = process.env.IGDB_CLIENT_ID;
     const clientSecret = process.env.IGDB_CLIENT_SECRET;
@@ -32,4 +32,3 @@ async function exchangeCodeForToken(code) {
     }
     return await response.json();
 }
-exports.exchangeCodeForToken = exchangeCodeForToken;

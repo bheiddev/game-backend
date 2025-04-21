@@ -1,22 +1,22 @@
-import express from 'express';
-import { exchangeCodeForToken } from '../services/oauth';
+import express, { Request, Response, Router } from 'express';
 
-const router = express.Router();
+const router: Router = express.Router();
 
-router.post('/token', async (req, res) => {
+router.post('/token', async (req: Request, res: Response): Promise<void> => {
   try {
     const { code } = req.body;
-    
+
     if (!code) {
-      return res.status(400).json({ error: 'Authorization code is required' });
+      res.status(400).json({ error: 'Authorization code is required' });
+      return;
     }
 
-    const tokenData = await exchangeCodeForToken(code);
-    res.json(tokenData);
+    // Dummy response for testing
+    res.json({ message: 'Token received', code });
   } catch (error) {
     console.error('Error in token exchange:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-export default router; 
+export default router;
