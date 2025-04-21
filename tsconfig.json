@@ -8,13 +8,12 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",  // Add this
-    "types": ["node", "express"] // Add this
+    "moduleResolution": "node"
   },
   "include": [
-    "backend/**/*"  // Fix the include syntax
+    "backend/**/*"
   ],
   "exclude": [
-    "node_modules"  // Fix the exclude syntax
+    "node_modules"
   ]
 }
