@@ -17,9 +17,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-  "build": "tsc",
-  "dev": "nodemon --watch backend --ext ts --exec ts-node backend/index.ts",
-  "start": "node dist/backend/index.js"
+    "build": "tsc",
+    "dev": "nodemon --watch backend --ext ts --exec ts-node backend/index.ts",
+    "start": "node dist/backend/index.js"
   },
   "eslintConfig": {
     "extends": [
@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
+    "@types/node": "^22.14.1",
     "webpack-dev-server": "^5.2.1"
   }
 }
