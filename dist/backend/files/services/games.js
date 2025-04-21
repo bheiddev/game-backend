@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getTopRatedGames = getTopRatedGames;
+exports.getTopRatedGames = void 0;
 let accessToken = null;
 let tokenExpiry = null;
 const IGDB_BASE_URL = 'https://api.igdb.com/v4';
@@ -89,3 +89,4 @@ async function getTopRatedGames() {
         throw error;
     }
 }
+exports.getTopRatedGames = getTopRatedGames;
