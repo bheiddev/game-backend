@@ -1,12 +1,19 @@
-import { OAuthResponse } from '../types/auth';
+let accessToken: string | null = null;
+let tokenExpiry: number | null = null;
 
-export async function exchangeCodeForToken(code: string): Promise<OAuthResponse> {
+export const IGDB_BASE_URL = 'https://api.igdb.com/v4';
+
+export async function getTwitchAccessToken(): Promise<string> {
   const clientId = process.env.IGDB_CLIENT_ID;
   const clientSecret = process.env.IGDB_CLIENT_SECRET;
-  const redirectUri = process.env.OAUTH_REDIRECT_URI || 'http://localhost:3000';
 
   if (!clientId || !clientSecret) {
     throw new Error('Client ID or Client Secret is not configured');
+  }
+
+  // Check if we have a valid token
+  if (accessToken && tokenExpiry && Date.now() < tokenExpiry) {
+    return accessToken;
   }
 
   const response = await fetch('https://id.twitch.tv/oauth2/token', {
@@ -17,21 +24,22 @@ export async function exchangeCodeForToken(code: string): Promise<OAuthResponse>
     body: new URLSearchParams({
       client_id: clientId,
       client_secret: clientSecret,
-      code: code,
-      grant_type: 'authorization_code',
-      redirect_uri: redirectUri,
+      grant_type: 'client_credentials',
     }),
   });
 
   if (!response.ok) {
-    const errorText = await response.text();
-    console.error('OAuth Token Error:', {
-      status: response.status,
-      statusText: response.statusText,
-      error: errorText,
-    });
-    throw new Error(`Failed to exchange code for token: ${errorText}`);
+    throw new Error('Failed to get access token');
   }
 
-  return await response.json();
-} 
+  const data = await response.json();
+  accessToken = data.access_token;
+  // Set expiry to 1 hour from now (minus 5 minutes buffer)
+  tokenExpiry = Date.now() + (data.expires_in - 300) * 1000;
+  
+  if (!accessToken) {
+    throw new Error('Access token is null after successful response');
+  }
+  
+  return accessToken;
+}
