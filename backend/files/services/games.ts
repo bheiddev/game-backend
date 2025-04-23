@@ -2,16 +2,23 @@ import { Game } from '../types/game';
 import { getTwitchAccessToken } from './oauth';
 import { IGDB_BASE_URL } from './oauth';
 
+//Call to pull in the top rated games
 export async function getTopRatedGames(): Promise<Game[]> {
   try {
+    //Get the token from the oauth service
     const token = await getTwitchAccessToken();
+    //Get the client id from the environment file
     const clientId = process.env.IGDB_CLIENT_ID;
 
+    //If the client id is not there, throw an error
     if (!clientId) {
       throw new Error('Client ID is not configured');
     }
 
+    //Get the current time
     const currentTimestamp = Math.floor(Date.now() / 1000);
+    
+    //call to the API
     const response = await fetch(`${IGDB_BASE_URL}/games`, {
       method: 'POST',
       headers: {
@@ -27,13 +34,16 @@ export async function getTopRatedGames(): Promise<Game[]> {
       `
     });
 
+    //if there is no response then throw an error
     if (!response.ok) {
       throw new Error(`IGDB API error: ${response.statusText}`);
     }
 
+    //create a game json object for all the games
     const games = await response.json();
     console.log(`Fetched ${games.length} games from IGDB`);
 
+    //create a game map for each game with its ID, name, cover URL, rating, release date, and summary
     return games.map((game: any) => {
       console.log('Processing game:', {
         id: game.id,
@@ -42,6 +52,7 @@ export async function getTopRatedGames(): Promise<Game[]> {
         formatted_date: game.first_release_date ? new Date(game.first_release_date * 1000).toISOString() : null
       });
 
+      //return the game object with id, name, cover URL, rating, release date, and summary
       return {
         id: game.id,
         name: game.name,
