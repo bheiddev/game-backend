@@ -5,7 +5,9 @@ const router = express.Router();
 
 router.get('/top-rated', async (req, res) => {
   try {
-    const games = await getTopRatedGames();
+    const limit = Math.min(parseInt(req.query.limit as string) || 36, 36); // max 50 per request
+    const offset = parseInt(req.query.offset as string) || 0;
+    const games = await getTopRatedGames(limit, offset);
     res.json(games);
   } catch (error) {
     console.error('Error fetching top rated games:', error);

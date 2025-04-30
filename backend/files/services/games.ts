@@ -3,7 +3,7 @@ import { getTwitchAccessToken } from './oauth';
 import { IGDB_BASE_URL } from './oauth';
 
 //Call to pull in the top rated games
-export async function getTopRatedGames(): Promise<Game[]> {
+export async function getTopRatedGames(limit: number = 36, offset: number = 0): Promise<Game[]> {
   try {
     //Get the token from the oauth service
     const token = await getTwitchAccessToken();
@@ -30,7 +30,8 @@ export async function getTopRatedGames(): Promise<Game[]> {
         fields name, cover.image_id, rating, first_release_date, genres.name, platforms.name, summary;
         where first_release_date <= ${currentTimestamp} & rating > 80 & genres = (32) & platforms = (6, 14, 48, 49, 130, 167, 169);
         sort first_release_date desc;
-        limit 500;
+        limit ${limit};
+        offset ${offset};
       `
     });
 
