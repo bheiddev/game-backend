@@ -32,6 +32,7 @@ export async function getNewGames(limit: number = 12, offset: number = 0): Promi
         & first_release_date <= ${twoWeeksFromNow}
         & genres = (32) 
         & platforms = (6, 14, 48, 49, 130, 167, 169);
+        & follows > 1000
         sort first_release_date asc;
         limit ${limit};
         offset ${offset};
