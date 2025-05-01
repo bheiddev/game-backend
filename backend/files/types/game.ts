@@ -7,4 +7,6 @@ export interface Game {
   genres: string[];
   platforms: string[];
   summary: string;
+  first_release_date: number | null;
+  cover: { image_id: string } | null;
 } 
