@@ -30,6 +30,7 @@ export async function getNewGames(limit: number = 12, offset: number = 0): Promi
         fields name, cover.image_id, rating, first_release_date, genres.name, platforms.name, summary;
         where first_release_date >= ${currentTimestamp} 
         & first_release_date <= ${twoWeeksFromNow}
+        & rating > 80
         & genres = (32) 
         & platforms = (6, 14, 48, 49, 130, 167, 169);
         sort first_release_date asc;
